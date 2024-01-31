@@ -19,7 +19,7 @@ export * as events from "./events/index"
 export * as states from "./states/index"
 
 type TIntegration = {
-  name: "empty-integration"
+  name: "dalle"
   version: "0.2.0"
   configuration: configuration.Configuration
   actions: actions.Actions

@@ -1,6 +1,7 @@
 import * as botpress from '.botpress'
-
-console.info('starting integration')
+import axios from 'axios'
+import { buildApiData, validateResponse, getApiConfig } from './client'
+import { TGenerateImageOutput, TContext } from 'types'
 
 class NotImplementedError extends Error {
   constructor() {
@@ -9,19 +10,31 @@ class NotImplementedError extends Error {
 }
 
 export default new botpress.Integration({
-  register: async () => {
-    /**
-     * This is called when a bot installs the integration.
-     * You should use this handler to instanciate ressources in the external service and ensure that the configuration is valid.
-     */
+  register: async () => { },
+  unregister: async () => { },
+  actions: {
+    generateImage: async ({ ctx, input, logger }): Promise<TGenerateImageOutput> => {
+
+      logger.forBot().info('Generating Image')
+
+      const { apiUrl, headers } = getApiConfig(ctx)
+      const data = buildApiData(input)
+
+      try {
+
+        const response = await axios.post(apiUrl, data, { headers })
+        validateResponse(response)
+
+        const image = response.data.data[0].url
+        const createdDate = response.data.created.toString()
+
+        return { url: image, createdDate }
+      } catch (error) {
+        logger.forBot().error('Error creating image:', error)
+        return { url: '', createdDate: Date.now().toString()}
+      }
+    }
   },
-  unregister: async () => {
-    /**
-     * This is called when a bot removes the integration.
-     * You should use this handler to instanciate ressources in the external service and ensure that the configuration is valid.
-     */
-  },
-  actions: {},
   channels: {
     channel: {
       messages: {
@@ -61,7 +74,5 @@ export default new botpress.Integration({
       },
     },
   },
-  handler: async () => {
-    throw new NotImplementedError()
-  },
+  handler: async () => { },
 })
