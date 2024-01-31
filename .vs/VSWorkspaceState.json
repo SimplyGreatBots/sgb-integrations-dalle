@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\dalle",
-    "\\dalle\\src"
+    "\\dalle"
   ],
-  "SelectedNode": "\\dalle\\src\\index.ts",
+  "SelectedNode": "\\dalle\\integration.definition.ts",
   "PreviewInSolutionExplorer": false
 }

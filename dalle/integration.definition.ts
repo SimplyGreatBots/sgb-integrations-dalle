@@ -1,6 +1,6 @@
 import { IntegrationDefinition, messages } from '@botpress/sdk'
-import { name } from './package.json'
 import { z } from 'zod'
+import { name } from './package.json'
 
 export default new IntegrationDefinition({
   name,
@@ -8,6 +8,7 @@ export default new IntegrationDefinition({
   icon: 'icon.svg',
   title: 'Dalle Image Generation',
   description: 'Generate images using Dalle',
+  readme: 'hub.md',
   configuration: {
     schema: z.object({
       apiKey: z.string().describe('Open API Key'),
